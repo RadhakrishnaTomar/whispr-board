@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  confession: one
+  emoji: MyString
+  ip: MyString
+
+two:
+  confession: two
+  emoji: MyString
+  ip: MyString

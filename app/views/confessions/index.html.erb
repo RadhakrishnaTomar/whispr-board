@@ -1,0 +1,42 @@
+<div class="max-w-2xl mx-auto px-4 py-6">
+  <h1 class="text-3xl font-bold text-center mb-6 text-purple-700">Whispr  Anonymous Confession Board</h1>
+
+  <% if flash[:notice] %>
+    <div class="mb-4 p-2 bg-green-100 text-green-700 rounded shadow">
+      <%= flash[:notice] %>
+    </div>
+  <% elsif flash[:alert] %>
+    <div class="mb-4 p-2 bg-red-100 text-red-700 rounded shadow">
+      <%= flash[:alert] %>
+    </div>
+  <% end %>
+
+  <!-- Confession Form -->
+  <div class="mb-6 bg-white shadow p-4 rounded">
+    <%= form_with model: @confession, local: true do |f| %>
+      <div class="mb-3">
+        <%= f.text_area :body, rows: 4, class: "w-full p-3 border border-gray-300 rounded resize-none focus:ring-2 focus:ring-purple-500", placeholder: "Write your secret here (max 500 characters)..." %>
+      </div>
+      <div>
+        <%= f.submit "Confess Anonymously", class: "bg-purple-600 hover:bg-purple-700 text-white font-semibold px-4 py-2 rounded" %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Confession Feed -->
+  <div class="space-y-4">
+    <% @confessions.each do |confession| %>
+      <div class="bg-gray-100 p-4 rounded shadow">
+        <p class="text-gray-800 mb-3"><%= confession.body %></p>
+
+        <div class="flex items-center gap-4">
+          <% ["like", "hug", "laugh"].each do |emoji| %>
+            <%= button_to emoji.capitalize, confession_reactions_path(confession, emoji: emoji), method: :post,
+              class: "px-3 py-1 bg-white border border-gray-300 rounded shadow-sm hover:bg-purple-100 transition text-sm" %>
+          <% end %>
+          <span class="ml-auto text-sm text-gray-600"><%= confession.reactions.count %> reactions</span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
